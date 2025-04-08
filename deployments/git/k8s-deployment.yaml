@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-git-server
+  labels:
+    app: mcp-git-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-git-server
+  template:
+    metadata:
+      labels:
+        app: mcp-git-server
+    spec:
+      containers:
+      - name: mcp-git
+        image: mcp-git:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+        volumeMounts:
+        - name: git-repos
+          mountPath: /repos
+      volumes:
+      - name: git-repos
+        persistentVolumeClaim:
+          claimName: git-repos-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-git-service
+spec:
+  selector:
+    app: mcp-git-server
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: git-repos-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi 

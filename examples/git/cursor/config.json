@@ -1,0 +1,34 @@
+{
+  "experimental": {
+    "mcp": {
+      "servers": {
+        "git": {
+          "description": "Local server option",
+          "command": "python",
+          "args": ["-m", "mcp_server_git"]
+        },
+        "git-hosted": {
+          "description": "Hosted server option (hypothetical)",
+          "url": "https://mcp-git.company.com",
+          "authToken": "${MCP_GIT_AUTH_TOKEN}",
+          "protocol": "sse"
+        },
+        "git-k8s": {
+          "description": "Kubernetes-deployed option",
+          "url": "http://mcp-git.local",
+          "protocol": "sse"
+        }
+      }
+    },
+    "aiAssistant": {
+      "defaultToolProviders": ["git"],
+      "toolPermissions": {
+        "git": {
+          "allowRepositoryCreation": true,
+          "allowedPaths": ["${WORKSPACE_ROOT}", "${HOME}/projects"],
+          "maxHistoryLines": 100
+        }
+      }
+    }
+  }
+} 

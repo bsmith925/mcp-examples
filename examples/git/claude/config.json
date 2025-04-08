@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "git": {
+      "command": "python",
+      "args": ["-m", "mcp_server_git"],
+      "env": {
+        "PYTHONPATH": "${HOME}/projects/mcp-example"
+      }
+    },
+    "git-with-repo": {
+      "command": "python",
+      "args": ["-m", "mcp_server_git", "--repository", "${HOME}/projects/my-git-repo"],
+      "env": {
+        "PYTHONPATH": "${HOME}/projects/mcp-example"
+      }
+    }
+  }
+} 
